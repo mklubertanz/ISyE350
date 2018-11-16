@@ -13,8 +13,8 @@ def agv(dairy_land):
     
     #Initialize all of your objects before the while loop
     ars = ARS()
-    # TODO update this based on our expected demand (ie how many bins of each color do we need?)
-    # TODO update coordinates
+    #TODO update this based on our expected demand (ie how many bins of each color do we need?)
+    #TODO update coordinates
     r1 = Bin('red', 'r1', __, __)
     r2 = Bin('red', 'r2', __, __)
     y1 = Bin('yellow', 'y1', __, __)
