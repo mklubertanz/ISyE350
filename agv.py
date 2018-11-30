@@ -26,9 +26,9 @@ def agv(dairy_land):
     bins = [r1, r2, r3, y1, y1, b1, b2]
 
     #TODO add packer coordinates
-    p1 = Packer(1, __, __)
-    p2 = Packer(2, __, __)
-    p3 = Packer(3, __, __)
+    p1 = Packer(1, 0, 0)
+    p2 = Packer(2, 0, 6)
+    p3 = Packer(3, 4, 6)
     
     while not dairy_land.test_complete:
         # read an order:
@@ -108,8 +108,8 @@ each packer. Some examples to help get you started are below.
 
     def move_to_bin(self, bin):
         # TODO
-        #std_turn_X = #this is the number of turns of the pulley are required to go one space 
-        #std_turn_Y = #this is the number of turns of the wheels are required to go one space
+        std_turn_X = #this is the number of degrees the pulley must turn to move one space 
+        std_turn_Y = 361.9114 #this is the number of degrees the wheels are required to turn to move one space
         x_move = bin.x - self.x
         y_move = bin.y - self.y
         
@@ -125,8 +125,8 @@ each packer. Some examples to help get you started are below.
     
     def move_to_packer(self, bin, packer):
         # TODO
-        #std_turn_X = #this is the number of turns of the pulley are required to go one space 
-        #std_turn_Y = #this is the number of turns of the wheels are required to go one space
+        std_turn_X = #this is the number of degrees the pulley must turn to move one space 
+        std_turn_Y = 361.9114 #this is the number of degrees the wheels are required to turn to move one space
         x_move = packer.x - self.x
         y_move = packer.y - self.y
         
