@@ -16,17 +16,17 @@ def agv(dairy_land):
     #TODO update this based on our expected demand (ie how many bins of each color do we need?)
     #we need 3 Reds, 2 Yellows and 1 Blue
     #TODO update coordinates
-    r1 = Bin('red', 'r1', __, __)
-    r2 = Bin('red', 'r2', __, __)
-    y1 = Bin('yellow', 'y1', __, __)
-    y2 = Bin('yellow', 'y2', __, __)
-    b1 = Bin('blue','b1', __, __)
-    b2 = Bin('blue','b2', __, __)
-    bins = [r1, r2, y1, y1, b1, b2]
+    r1 = Bin('red', 'r1', __, __)            #Top right
+    r2 = Bin('red', 'r2', __, __)            #Middle left
+    r3 = Bin('red', 'r3', __, __)            #Bottom right
+    y1 = Bin('yellow', 'y1', __, __)         #Top left
+    y2 = Bin('yellow','y2', __, __)          #Middle right
+    b1 = Bin('blue','b1', __, __)            #Bottom left
+    bins = [r1, r2, r3, y1, y2, b1]
 
-    p1 = Packer(1, __, __)
-    p2 = Packer(2, __, __)
-    p3 = Packer(3, __, __)
+    p1 = Packer(1, __, __)                   #Top left
+    p2 = Packer(2, __, __)                   #Top right
+    p3 = Packer(3, __, __)                   #Bottom left
     
     while not dairy_land.test_complete:
         # read an order:
@@ -42,6 +42,7 @@ def agv(dairy_land):
             # TODO implement code below...
             # Move robot to closest bin:
                 # call function that activates motors and moves system
+                # 
                 # update system location
             
             # Pause while cheese is loaded:
