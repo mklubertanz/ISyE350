@@ -109,7 +109,7 @@ each packer. Some examples to help get you started are below.
     def move_to_bin(self, bin):
         # TODO
         std_turn_X = #this is the number of degrees the pulley must turn to move one space 
-        std_turn_Y = 361.9114 #this is the number of degrees the wheels are required to turn to move one space
+        std_turn_Y = 358.098622 #this is the number of degrees the wheels are required to turn to move one space
         x_move = bin.x - self.x
         y_move = bin.y - self.y
         
