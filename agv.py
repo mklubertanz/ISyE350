@@ -1,5 +1,6 @@
-from ev3dev.ev3 import *
-#added this ^ SK
+import ev3dev.ev3 as ev3
+from ev3 import *
+#added these ^ SK
 from time import sleep
 '''
 The agv function will act as the "main" method for your system. dairy_land is a Factory object from the factory.py file.
@@ -10,6 +11,30 @@ correct packer, you may call the order_complete function on the order object to 
 IMPORTANT: each time you call the read_order() function, the order at the front of the queue is removed. Do not call the
 read_order() function until the previous order has been fulfilled.
 '''
+def move(this_packer, this_bin):
+    std_turn_X = 308.5157698 #this is the number of degrees the pulley must turn to move one space
+    std_turn_Y = 358.098622 #this is the number of degrees the wheels are required to turn to move one space
+    if this_packer is not None and this_bin is None:
+        x_move = this_packer.x - self.x
+        print(x_move)
+        y_move = this_packer.y - self.y
+        print(y_move)
+    elif this_packer is None and this_bin is not None: 
+        x_move = this_bin.x - self.x
+        print(x_move)
+        y_move = this_bin.y - self.y
+    else:
+        ev3.Sound.speak('Error I cannot detect my next move').wait()
+    mA = LargeMotor('outA') #motor: pulley motor
+    mB = LargeMotor('outB') #motor: wheel motor
+    mC = LargeMotor('outC') #motor: wheel motor
+    mA.run_to_rel_pos(position_sp=x_move*std_turn_X, speed_sp=100, stop_action="brake")
+    mB.run_to_rel_pos(position_sp=y_move*std_turn_Y, speed_sp=100, stop_action="brake")
+    mC.run_to_rel_pos(position_sp=y_move*std_turn_Y, speed_sp=100, stop_action="brake")
+    #TODO: add "sleep while running method"
+    sleep(3)
+    ars.updateCurLocation(bin.x, bin.y)
+
 def agv(dairy_land):
 
     #Initialize all of your objects before the while loop
@@ -39,25 +64,21 @@ def agv(dairy_land):
             # cur_bin --> the closest bin returned from the find_nearest_bin function
             print(cur_bin.name) # SK test
             # Move robot to closest bin:
-            ars.move_to_bin(cur_bin)
-            # Pause while cheese is loaded:
+            move(None, cur_bin)
             sleep(3)
-            # Move to correct packer:
-            ars.move_to_packer(cur_bin, packers[cur_order.packer - 1])
             print(packers[cur_order.packer - 1].region) # SK test
+            # Move to correct packer:
+            move(None, packers[cur_order.packer - 1])
+            sleep(3)
             # Move bin to open (and optimal) spot
-            ars.move_to_bin(cur_bin) #for now, assume we're taking bin back to its location
-
+            move(None, cur_bin) #for now, assume we're taking bin back to its location
+            cur_order.isComplete = True
         else:
             sleep(1)
 
 
-
 class ARS():
     def __init__(self, x, y):
-        self.mA = LargeMotor('outA') #motor: pulley motor
-        self.mB = LargeMotor('outB') #motor: wheel motor
-        self.mC = LargeMotor('outC') #motor: wheel motor
         self.x = x #SK - these are the initial coordinates of the ARS
         self.y = y
 
@@ -75,39 +96,9 @@ class ARS():
                     near_bin = this
         return near_bin
 
-    def move_to_bin(self, bin):
-        print("In move_to_bin")
-        std_turn_X = 308.5157698 #this is the number of degrees the pulley must turn to move one space
-        std_turn_Y = 358.098622 #this is the number of degrees the wheels are required to turn to move one space
-        x_move = bin.x - self.x
-        y_move = bin.y - self.y
-        self.mA.run_to_rel_pos(position_sp=x_move*std_turn_X, speed_sp=100, stop_action="brake")
-        self.mB.run_to_rel_pos(position_sp=y_move*std_turn_Y, speed_sp=100, stop_action="brake")
-        self.mC.run_to_rel_pos(position_sp=y_move*std_turn_Y, speed_sp=100, stop_action="brake")
-        #!/usr/bin/env python3 - what's this? -SK
-        self.updateCurLocation(bin.x, bin.y)
-
-
-
-    def move_to_packer(self, bin, packer):
-        print("In move_to_packer")
-        std_turn_X = 308.5157698 #this is the number of degrees the pulley must turn to move one space
-        std_turn_Y = 358.098622 #this is the number of degrees the wheels are required to turn to move one space
-        x_move = packer.x - self.x
-        print(x_move)
-        y_move = packer.y - self.y
-        print(y_move)
-        self.mA.run_to_rel_pos(position_sp=x_move*std_turn_X, speed_sp=100, stop_action="brake")
-        self.mB.run_to_rel_pos(position_sp=y_move*std_turn_Y, speed_sp=100, stop_action="brake")
-        self.mC.run_to_rel_pos(position_sp=y_move*std_turn_Y, speed_sp=100, stop_action="brake")
-        #!/usr/bin/env python3 - what's this? -SK
-        self.updateCurLocation(bin.x, bin.y)
-
-
     def updateCurLocation(self, x, y): #SK this is a method I’ve added
         self.x = x
         self.y = y
-
 
         
 
